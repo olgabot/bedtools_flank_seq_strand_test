@@ -56,3 +56,11 @@ You can change this by specifying new values, e.g. a different genome fasta file
 ```
 FASTA=genome.fa GENOME=mm10.chrom.sizes make all
 ```
+
+### Compare outputs
+
+To compare what you got and what I got, use the command line tool `diff` on everything created, compared to the backup folder:
+
+```
+for FILENAME in $(ls exon2_*); do diff $FILENAME backup/$FILENAME; done
+```
