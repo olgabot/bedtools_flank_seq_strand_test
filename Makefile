@@ -5,7 +5,11 @@ GENOME=~/genomes/mm10/mm10.chrom.sizes
 clean:
 	rm exon2_*
 
-all: sorted upstream2nt downstream2nt seqs_unstranded seqs_stranded
+all: version sorted upstream2nt downstream2nt seqs_unstranded seqs_stranded
+
+version:
+	which bedtools
+	bedtools --version
 
 sorted:
 	bedtools sort -i exon2.bed > exon2_sorted.bed
@@ -22,13 +26,13 @@ downstream2nt: exon2_sorted.bed
 
 seqs_unstranded: upstream2nt downstream2nt
 	bedtools getfasta -tab -fi $(FASTA) \
-		-bed exon2_upstream2nt.bed -fo exon2_upstream2nt_seqs_stranded.txt
+		-bed exon2_upstream2nt.bed -fo exon2_upstream2nt_seqs_unstranded.txt
 	bedtools getfasta -tab -fi $(FASTA) \
-		-bed exon2_downstream2nt.bed -fo exon2_downstream2nt_seqs_stranded.txt
+		-bed exon2_downstream2nt.bed -fo exon2_downstream2nt_seqs_unstranded.txt
 	bedtools getfasta -tab -fi $(FASTA) \
-		-bed exon2_sorted_upstream2nt.bed -fo exon2_sorted_upstream2nt_seqs_stranded.txt
+		-bed exon2_sorted_upstream2nt.bed -fo exon2_sorted_upstream2nt_seqs_unstranded.txt
 	bedtools getfasta -tab -fi $(FASTA) \
-		-bed exon2_sorted_downstream2nt.bed -fo exon2_sorted_downstream2nt_seqs_stranded.txt
+		-bed exon2_sorted_downstream2nt.bed -fo exon2_sorted_downstream2nt_seqs_unstranded.txt
 
 seqs_stranded: upstream2nt downstream2nt
 	bedtools getfasta -tab -s -fi $(FASTA) \
